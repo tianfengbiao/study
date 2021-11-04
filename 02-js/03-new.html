@@ -1,0 +1,13 @@
+<script>
+function P() {
+    console.log('this=',this);
+    this.age = 18;
+    this.sayHi = function(){
+        console.log('this.sayHi=',this);
+    }
+    return [1,2];
+}
+let p = new P();
+console.log('p=',p);
+
+</script>

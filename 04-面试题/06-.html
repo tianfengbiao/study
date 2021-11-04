@@ -1,0 +1,30 @@
+<script>
+    Object.prototype.fn1 = function () { console.log(12) };
+    var Test = function () {
+        this.num = 0;
+    }
+    Test.num = 0;
+    Test.prototype.fn1 = function () { console.log(2) };
+    Test.prototype.fn2 = function () { this.num++ };
+    Test.prototype.fn3 = function () { this.constructor.num++ };
+    Test.prototype.fn4 = function () { console.log(this.constructor.num) };
+
+    var t1 = new Test();
+    t1.fn2();
+
+    var t2 = new Test();
+    t1.fn3();
+
+    console.log('t1.num=', t1.num);//1
+    console.log('t2.num=', t2.num);//0
+    // console.log('Test.num=',Test.num);//1
+
+    t1.fn4();//1
+    t2.fn4();//1
+
+    t1.fn1();//2
+
+    t1.__proto__.__proto__.fn1();
+
+
+</script>

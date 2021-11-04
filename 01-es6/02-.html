@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+    if(s.length < 2) {
+        return s;
+    }
+
+    let maxLength = 1;
+    let start = 0;
+
+    function help(left, right) {
+        while(left >= 0 && right <= s.length - 1 && s[left] === s[right]) {
+            let maxL = right - left + 1;
+            if(maxL > maxLength) {
+                maxLength = maxL;
+                start = left;
+            }
+            right++;
+            left--;
+        }
+    }
+
+    for(let i = 0; i < s.length; i++) {
+        help(i, i+1);
+        help(i-1, i+1)
+    }
+
+    return s.substring(start, start + maxLength)
+
+};
+
+
+var groupAnagrams = function(strs) {
+    if(strs.length === 0) {
+        return []
+    }
+    let map = new Map()
+    for(let str of strs) {
+        let wordList = Array(26).fill(0);
+        for(let i = 0; i < str.length; i++) {
+            let ascii = str.charCodeAt(i) - 97;
+            wordList[ascii] = wordList[ascii] + 100;
+        }
+        const key = wordList.join(',')
+        console.log('wordList==',wordList)
+        if(map.has(key)) {
+            map.set(key, [...map.get(key), str])
+        } else {
+            map.set(key, [str])
+        }
+    }
+    // console.log('map==',map)
+    let res = [];
+    for(let arr of map) {
+        // console.log('arr==',arr)
+        res.push(arr[1])
+    }
+    return res;
+};
+
+var rr = groupAnagrams(["bdddddddddd","bbbbbbbbbbc"]);
+console.log('rr===',rr)
+
+
+
+
+
+var twoSum = function(nums, target) {
+    var map = new Map();
+    for(var i = 0; i < nums.length; i++){
+        if(map.has(nums[i])) {
+            return [map.get(nums[i]),i]
+        } else {
+            map.set(target - nums[i], i)
+        }
+    }
+
+    return [];
+};
+
+
+var strStr = function(haystack, needle) {
+    const n = haystack.length, m = needle.length;
+    if (m === 0) {
+        return 0;
+    }
+    const pi = new Array(m).fill(0);
+    for (let i = 1, j = 0; i < m; i++) {
+        while (j > 0 && needle[i] !== needle[j]) {
+            j = pi[j - 1];
+        }
+        if (needle[i] == needle[j]) {
+            j++;
+        }
+        pi[i] = j;
+    }
+    for (let i = 0, j = 0; i < n; i++) {
+        while (j > 0 && haystack[i] != needle[j]) {
+            j = pi[j - 1];
+        }
+        if (haystack[i] == needle[j]) {
+            j++;
+        }
+        if (j === m) {
+            return i - m + 1;
+        }
+    }
+    return -1;
+};
+
+// 作者：LeetCode-Solution
+// 链接：https://leetcode-cn.com/problems/implement-strstr/solution/shi-xian-strstr-by-leetcode-solution-ds6y/
+// 来源：力扣（LeetCode）
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+
+
+
+</script>

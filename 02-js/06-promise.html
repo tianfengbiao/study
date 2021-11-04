@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    //完整的实现
+    class MyPromise {
+        callbacks = [];
+        state = 'pending';//增加状态
+        value = null;//保存结果
+        constructor(fn) {
+            fn(this._resolve.bind(this));
+        }
+        then(onFulfilled) {
+            return new MyPromise(resolve => {
+                this._handle({
+                    onFulfilled: onFulfilled || null,
+                    resolve: resolve
+                });
+            });
+        }
+        _handle(callback) {
+            if (this.state === 'pending') {
+                this.callbacks.push(callback);
+                return;
+            }
+            //如果then中没有传递任何东西
+            if (!callback.onFulfilled) {
+                callback.resolve(this.value);
+                return;
+            }
+            var ret = callback.onFulfilled(this.value);
+            callback.resolve(ret);
+        }
+        _resolve(value) {
+            // console.log('value=====',value)
+            this.state = 'fulfilled';//改变状态
+            this.value = value;//保存结果
+            this.callbacks.forEach(callback => this._handle(callback));
+        }
+    }
+
+
+    
+
+    //使用Promise
+    function getUserId(url) {
+        return new MyPromise(function (resolve) {
+            //异步请求
+            setTimeout(() => {
+                resolve('id==1')
+            }, 100)
+        })
+    }
+
+    function getNameById(url) {
+        return new MyPromise(function (resolve) {
+            //异步请求
+            setTimeout(() => {
+                resolve('name==2')
+            }, 100)
+        })
+    }
+
+    function getCourseByName(url) {
+        return new MyPromise(function (resolve) {
+            //异步请求
+            setTimeout(() => {
+                resolve('course==3')
+            }, 100)
+        })
+    }
+
+    function getCourseDetailByCourse(url) {
+        return new MyPromise(function (resolve) {
+            //异步请求
+            setTimeout(() => {
+                resolve('courseDetail==4')
+            }, 100)
+        })
+    }
+    // debugger
+    getUserId('some_url').then(function (id) {
+        //do something
+        console.log('id=====',id)
+        return 'aaaa';
+    })
+    .then(function (name) {
+        //do something
+        console.log('name=====',name)
+        // return getCourseByName(name);
+    })
+    // .then(function (course) {
+    //     //do something
+    //     console.log('course=====',course)
+    //     return getCourseDetailByCourse(course);
+    // }).then(function (courseDetail) {
+    //     //do something
+    //     console.log('courseDetail=====',courseDetail)
+
+    // });
+
+
+</script>

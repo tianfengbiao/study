@@ -1,0 +1,252 @@
+<script>
+    //     /**
+    //      * 定义一个“依赖收集器”
+    //      */
+    //     const Dep = {
+    //         target: null
+    //     }
+
+    //     /**
+    //      * 使一个对象转化成可观测对象
+    //      * @param { Object } obj 对象
+    //      * @param { String } key 对象的key
+    //      * @param { Any } val 对象的某个key的值
+    //      */
+    //     function defineReactive(obj, key, val) {
+    //         const deps = []
+    //         Object.defineProperty(obj, key, {
+    //             get() {
+    //                 console.log(`我的${key}属性被读取了！`)
+    //                 if (Dep.target && deps.indexOf(Dep.target) === -1) {
+    //                     deps.push(Dep.target);
+    //                     console.log('deps=',deps);
+    //                 }
+    //                 return val
+    //             },
+    //             set(newVal) {
+    //                 console.log(`我的${key}属性被修改了！`)
+    //                 val = newVal
+    //                 deps.forEach((dep) => {
+    //                     dep()
+    //                 })
+    //             }
+    //         })
+    //     }
+
+    //     /**
+    //      * 把一个对象的每一项都转化成可观测对象
+    //      * @param { Object } obj 对象
+    //      */
+    //     function observable(obj) {
+    //         const keys = Object.keys(obj)
+    //         for (let i = 0; i < keys.length; i++) {
+    //             defineReactive(obj, keys[i], obj[keys[i]])
+    //         }
+    //         return obj
+    //     }
+
+    //     /**
+    //      * 当计算属性的值被更新时调用
+    //      * @param { Any } val 计算属性的值
+    //      */
+    //     function onComputedUpdate(val) {
+    //         console.log(`我的类型是：${val}`)
+    //     }
+
+    //     /**
+    //      * 观测者
+    //      * @param { Object } obj 被观测对象
+    //      * @param { String } key 被观测对象的key
+    //      * @param { Function } cb 回调函数，返回“计算属性”的值
+    //      */
+    //     function watcher(obj, key, cb) {
+    //         // 定义一个被动触发函数，当这个“被观测对象”的依赖更新时调用
+    //         const onDepUpdated = () => {
+    //             const val = cb()
+    //             onComputedUpdate(val)
+    //         }
+
+    //         Object.defineProperty(obj, key, {
+    //             get() {
+    //                 console.log('watcher');
+    //                 Dep.target = onDepUpdated
+    //                 // 执行cb()的过程中会用到Dep.target，
+    //                 // 当cb()执行完了就重置Dep.target为null
+    //                 const val = cb()
+    //                 Dep.target = null
+    //                 return val
+    //             },
+    //             set() {
+    //                 console.error('计算属性无法被赋值！')
+    //             }
+    //         })
+    //     }
+    //     // debugger;
+    //     const hero = observable({
+    //         health: 3000,
+    //         IQ: 150
+    //     })
+    //     // console.log('hero=',hero);
+    //     watcher(hero, 'type', () => {
+    //         return hero.health > 4000 ? '坦克' : '脆皮'
+    //     })
+
+    //     console.log(`英雄初始类型：${hero.type}`)
+
+    //     hero.health = 5000
+
+    // // -> 我的health属性被读取了！
+    // // -> 英雄初始类型：脆皮
+    // // -> 我的health属性被修改了！
+    // // -> 我的health属性被读取了！
+    // // -> 我的类型是：坦克
+
+    // // https://zhuanlan.zhihu.com/p/29318017/
+
+    // let hero = {}
+    // let val = 3000
+    // Object.defineProperty(hero, 'health', {
+    //     get() {
+    //         console.log('我的health属性被读取了！')
+    //         return val
+    //     },
+    //     set(newVal) {
+    //         console.log('我的health属性被修改了！')
+    //         val = newVal
+    //     }
+    // })
+
+    // console.log(hero.health)
+
+    // // -> 3000
+    // // -> 我的health属性被读取了！
+
+    // hero.health = 5000
+    // // -> 我的health属性被修改了
+    // console.log(hero.health)
+
+
+
+    // let hero = {}
+    // let val = 3000
+    // Object.defineProperty(hero, 'health', {
+    //     get() {
+    //         console.log('我的health属性被读取了！')
+    //         return val
+    //     },
+    //     set(newVal) {
+    //         console.log('我的health属性被修改了！')
+    //         val = newVal
+    //     }
+    // })
+    // 我们通过Object.defineProperty方法，给hero定义了一个health属性，这个属性在被读写的时候都会触发一段console.log。现在来尝试一下：
+
+    // console.log('我的health属性被读取了！')
+
+    // // -> 3000
+    // // -> 我的health属性被读取了！
+
+    // hero.health = 5000
+    // // -> 我的health属性被修改了
+    // 可以看到，英雄已经可以主动告诉我们其属性的读写情况了，这也意味着，这个英雄的数据对象已经是“可观测”的了。为了把英雄的所有属性都变得可观测，我们可以想一个办法：
+
+
+
+
+
+
+
+
+    /**
+     * 使一个对象转化成可观测对象
+     * @param { Object } obj 对象
+     * @param { String } key 对象的key
+     * @param { Any } val 对象的某个key的值
+     */
+    function defineReactive(obj, key, val) {
+        const deps = [];
+        Object.defineProperty(obj, key, {
+            get() {
+                if (Dep.target && deps.indexOf(Dep.target) === -1) {
+                    deps.push(Dep.target)
+                }
+                // 触发getter
+                console.log(`我的${key}属性被读取了！`);
+                return val
+            },
+            set(newVal) {
+                // 触发setter
+                console.log(`我的${key}属性被修改了！`);
+                val = newVal;
+                
+                deps.forEach((dep) => {
+                    dep()
+                })
+            }
+        })
+    }
+
+    /**
+     * 把一个对象的每一项都转化成可观测对象
+     * @param { Object } obj 对象
+     */
+    function observable(obj) {
+        const keys = Object.keys(obj)
+        keys.forEach((key) => {
+            defineReactive(obj, key, obj[key])
+        })
+        return obj
+    }
+
+    let Dep = {
+        target: null
+    };
+
+    /**
+    * 当计算属性的值被更新时调用
+    * @param { Any } val 计算属性的值
+    */
+    function onComputedUpdate(val) {
+        console.log(`我的类型是：${val}`);
+    }
+
+    /**
+     * 观测者
+     * @param { Object } obj 被观测对象
+     * @param { String } key 被观测对象的key
+     * @param { Function } cb 回调函数，返回“计算属性”的值
+     */
+    function watcher(obj, key, cb) {
+        // 定义一个被动触发函数，当这个“被观测对象”的依赖更新时调用
+        const onDepUpdated = () => {
+            const val = cb()
+            onComputedUpdate(val)
+        }
+        Object.defineProperty(obj, key, {
+            get() {
+                Dep.target = onDepUpdated;
+                // 执行cb()的过程中会用到Dep.target，
+                // 当cb()执行完了就重置Dep.target为null
+                const val = cb();
+                Dep.target = null;
+                return val
+            },
+            set() {
+                console.error('计算属性无法被赋值！')
+            }
+        })
+    }
+
+    const hero = observable({
+        health: 3000,
+        IQ: 150
+    });
+    watcher(hero, 'type', () => {
+        return hero.health > 4000 ? '坦克' : '脆皮'
+    });
+    debugger;
+    console.log('==11', hero.type);
+    hero.health = 6000;
+    console.log('==22', hero.type);
+
+</script>
