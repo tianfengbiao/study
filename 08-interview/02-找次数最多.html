@@ -1,0 +1,22 @@
+<script>
+    var str = 'abcdefffdddddd';
+    var obj = {};
+    for (var i = 0; i < str.length; i++) {
+        var t = str[i];
+        if (obj[t]) {
+            obj[t] = obj[t] + 1;
+        } else {
+            obj[t] = 1;
+        }
+    }
+    var num = 0;
+    var result;
+    for(var key in obj) {
+        if (obj[key] > num) {
+            num = obj[key];
+            result = key;
+        }
+    }
+    console.log(`${result}:`, num);
+
+</script>

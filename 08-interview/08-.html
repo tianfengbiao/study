@@ -1,0 +1,14 @@
+<script>
+var foo = 1;
+function main(){
+    alert(foo);
+    var foo = 2;
+    // console.log(this);
+    alert(this.foo);
+    this.foo = 3;
+}
+var m1 = main();// undefined 1
+var m2 = new main();// undefined undefined
+
+
+</script>

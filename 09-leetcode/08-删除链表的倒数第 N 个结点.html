@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+
+进阶：你能尝试使用一趟扫描实现吗？
+
+
+</body>
+</html>
+<script>
+function ListNode(val, next) {
+    this.val = (val===undefined ? 0 : val)
+    this.next = (next===undefined ? null : next)
+}
+
+var removeNthFromEnd = function(head, n) {
+    let cur = head;
+    let list = [];
+    while(cur !== null) {
+        list.push(cur.val);
+        cur = cur.next;
+    }
+
+    let l = list.length;
+    let cur1 = head;
+    let i = 1;
+    while(i < l) {
+        cur1 = cur1.next;
+        if(i === n) {
+            break;
+        }
+        i++
+    }
+    head.next = cur;
+    return cur1;
+    
+    // let dummy = new ListNode();
+    // dummy.next = head;
+
+    // let fast = dummy;
+    // let slow = dummy;
+
+    // for(let i = 0; i < n; i++){
+    //     fast = fast.next;
+    // }
+
+    // while(fast !== null) {
+    //     slow = slow.next;
+    //     fast = fast.next;
+    // }
+    // slow.next = slow.next.next;
+    // return dummy.next;
+
+}
+
+
+
+let dummy = {
+    val: undefined,
+    next: {
+        val: 1,
+        next: {
+            val: 2,
+            next: {
+                val: 3,
+                next: {
+                    val: 4,
+                    next: null
+                }
+            }
+        }
+    }
+}
+
+let nodeSlow = dummy.next;
+nodeSlow.next.next = {
+    val: 66,
+    next: null
+}
+console.log('dummy==',dummy) // undefined 1 2 66
+</script>

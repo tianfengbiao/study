@@ -1,0 +1,30 @@
+<script>// 宏任务1
+    console.log('宏任务1'); // 宏任务1中的同步任务
+    
+    setTimeout(() => {// 宏任务1中的另一个宏任务3
+        console.log('宏任务1中的另一个宏任务3');
+        
+        new Promise((resolve, reject) => {
+            resolve('宏任务3中的微任务2');
+        }).then(data => {// 宏任务3中的微任务2
+            console.log(data)
+        })
+        
+    }, 300);
+    
+    new Promise((resolve, reject) => {
+        resolve('宏任务1中的微任务1');
+    }).then(data => {// 宏任务1中的微任务1
+        console.log(data);
+        
+        setTimeout(() => {// 微任务1中的另一个宏任务4
+            console.log('微任务1中的另一个宏任务4');
+        }, 300);
+        
+    });
+    
+</script>
+
+<script>
+    console.log('宏任务2')
+</script>

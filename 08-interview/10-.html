@@ -1,0 +1,14 @@
+<script>
+function f(a,b) {
+    console.log(b);
+    return {
+        f: function(c) {
+            return f(c,a);
+        }
+    }
+}
+var d = f(0).f(1).f(2);
+d.f(3);
+d.f(4)
+
+</script>
