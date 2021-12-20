@@ -7,21 +7,21 @@ const arr = [1, [2, [3, [4, 5]]], 6];
 
 // reduce
 function flaten(arr) {
-    return arr.reduce((pre, cur) => {
-        let val = Array.isArray(pre) ? flaten(pre) : cur;
-        return pre.concat(val);
-    }, [])
+	return arr.reduce((pre, cur) => {
+		let val = Array.isArray(pre) ? flaten(pre) : cur;
+		return pre.concat(val);
+	}, [])
 }
 
 const res5 = [];
 const fn = arr => {
-  for (let i = 0; i < arr.length; i++) {
-    if (Array.isArray(arr[i])) {
-        fn(arr[i]);
-    } else {
-        res5.push(arr[i]);
-    }
-  }
+	for (let i = 0; i < arr.length; i++) {
+		if (Array.isArray(arr[i])) {
+			fn(arr[i]);
+		} else {
+			res5.push(arr[i]);
+		}
+	}
 }
 fn(arr);
 

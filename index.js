@@ -5,6 +5,7 @@ let arr2 = [1,2,5,7]
 
 const mergeSort = (arr1, arr2) => {
     let ret = []
+    // debugger
     // 
     while(arr1.length && arr2.length) {
         if(arr1[0] < arr2[0]) {
