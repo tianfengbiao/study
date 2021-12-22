@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="parent">
+        <div class="child-1">
+            <div class="child-1-1">
+                <div class="child-1-1-1">
+                    a
+                </div>
+                <div class="child-1-1-2">
+                    b
+                </div>
+            </div>
+            <div class="child-1-2">
+                <div class="child-1-2-1">
+                    c
+                </div>
+            </div>
+            <div class="child-1-3">
+                d
+            </div>
+        </div>
+        <div class="child-2">
+            <div class="child-2-1">
+                e
+            </div>
+            <div class="child-2-2">
+                f
+            </div>
+        </div>
+        <div class="child-3">
+            <div class="child-3-1">
+                g
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+let parent = document.getElementsByClassName('parent')[0];
+
+// bfs
+//队列 1先进队列  2 进队列 [2,1] ==> [1,2]
+// 
+const widthBFS = node => {
+    let q = [];
+    let nodeList = [];
+    q.push(node);
+    while(q.length) {
+        let item = q.shift();
+        nodeList.push(item);
+        let nodes = item.children && item.children.length ? item.children : []
+        for(let i = 0; i < nodes.length; i++) {
+            q.push(nodes[i])
+        }
+    }
+    return nodeList;
+}
+ console.log('widthBFS(parent)==',widthBFS(parent))
+
+ // dfs [1,2,3] 
+ const deepDFS1 = node => {
+     let stack = [];
+     let nodeList = [];
+     stack.push(node)
+     while(stack.length) {
+         let item = stack.pop();
+         nodeList.push(item);
+         let nodes = item.children && item.children.length ? item.children : [];
+
+         for(let i = nodes.length - 1; i >=0; i--) {
+             stack.push(nodes[i]);
+         }
+     }
+     return nodeList;
+ }
+
+ console.log('deepDFS1(parent)==',deepDFS1(parent))
+
+
+ const deepDFS2 = (node, nodeList = []) => {
+    if (node !== null) {
+        nodeList.push(node)
+        let children = node.children
+        for (let i = 0; i < children.length; i++) {
+            deepDFS2(children[i], nodeList)
+        }
+    }
+    return nodeList
+ }
+
+ console.log('deepDFS2(parent)==',deepDFS2(parent))
+
+</script>
