@@ -1,1 +1,91 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <br>
+    基本数据类型
+    基本数据类型的值是按值访问的.
+    基本类型的变量是存放在栈内存（Stack）里的
+    <br>
+
+    undefined
+    null
+    boolean
+    number
+    string.
+    Symbol
+
+    <br>
+
+    null
+    null 的字面意思是：空值 。
+    这个值的语义是，希望表示 一个对象被人为的重置为空对象，而非一个变量最原始的状态 。 
+    在内存里的表示就是，栈中的变量没有指向堆中的内存对象
+
+    <br>
+
+    当一个对象被赋值了null 以后，原来的对象在内存中就处于游离状态，GC 会择机回收该对象并释放内存。
+    因此，如果需要释放某个对象，就将变量设置为 null，即表示该对象已经被清空，目前无效状态。
+
+    <br>
+    typeof null == 'object' ????
+
+    null 有属于自己的类型 Null，而不属于Object类型，typeof 之所以会判定为 Object 类型，
+    是因为JavaScript 数据类型在底层都是以二进制的形式表示的，二进制的前三位为 0 会被 typeof 判断为对象类型，
+    而 null 的二进制位恰好都是 0 ，因此，null 被误判断为 Object 类型。
+
+    <!-- 　不同的对象在底层都表示为二进制，在javascript中二进制前三位都为0会被判断为object类型，null的二进制表示是全0，所以执行typeof时返回'object' -->
+
+    000 - 对象，数据是对象的应用
+
+    1 - 整型，数据是31位带符号整数
+
+    010 - 双精度类型，数据是双精度数字
+
+    100 - 字符串，数据是字符串
+
+    110 - 布尔类型，数据是布尔值
+
+    <br>
+    对象 转 数字
+
+    对象 转 数字 ，首先调用 valueOf()，如果返回的是原始值，
+    再转数字（需要的话），并返回；否则调用 toString()， 如果返回的是原始值，再转数字，并返回;否则 抛出一个类型错误。
+
+    + [];    //0
+    //[].valueOf();   返回数组本身[]，所以调用 [].toString(); 返回 空字符串"",""再转数字 0；
+    + (new Date());   //1526008864094
+    //调用  (new Date()).valueOf(); 返回1526008864094
+
+    <br>
+    对象 转 字符串
+
+    对象 转 字符串 ，跟转数字的规则一样。只不过是转字符串。
+    首先调用 valueOf()，如果返回的是原始值，再转字符串（需要的话），并返回；否则调用 toString()， 
+    如果返回的是原始值，再转字符串，并返回;否则 抛出一个类型错误。
+
+    "66" + [];    //"66"
+    "66" + {};    //"66[object Object]"
+    总结：对象对原始值，除了布尔类型，其他都是先调用valueOf，然后根据需要调用toString。
+
+
+    <br>
+
+    引用数据类型。 
+    引用类型的值是按引用访问的。
+    引用类型的值是保存在堆内存（Heap）中的对象（Object）
+    Object
+    Array
+</body>
+</html>
+<script>
+   
+
+
+</script>
