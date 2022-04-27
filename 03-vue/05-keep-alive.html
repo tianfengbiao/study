@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+        <keep-alive>
+            <coma v-if="this.test"></coma>
+            <comb v-if="!this.test"></comb>
+        </keep-alive>
+        <button @click="this.handleClick">请点击</button>
+    </div>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script>
+    let Coma = Vue.extend({
+        template: '<input  v-model="val"/>',
+        created() {
+            console.log('created====',1111);
+        },
+        activated() {
+            console.log('activated====',3333);
+        },
+        data() {
+            return {
+                val: "test"
+            };
+        }
+    });
+
+    let Comb = Vue.extend({
+        template: '<div><input v-model="val"/></div>',
+        created() {
+            console.log('created====',2222);
+        },
+        activated() {
+            console.log('activated====',444);
+        },
+        data() {
+            return {
+                val: "666"
+            };
+        }
+    });
+
+    Vue.component("coma", Coma);
+    Vue.component("comb", Comb);
+
+    var app = new Vue({
+        el: '#app',
+
+        data() {
+            return {
+                test: true,
+                message: 'Hello Vue!'
+            };
+        },
+        methods: {
+            handleClick() {
+                this.test = !this.test;
+            },
+        }
+
+    })
+</script>
