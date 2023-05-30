@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+    输入：head = [1,2,3,4,5], n = 2
+输出：[1,2,3,5]
+
+输入：head = [1], n = 1
+输出：[]
+
+
+输入：head = [1,2], n = 1
+输出：[1]
+</body>
+</html>
+<script>
+    /**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+var removeNthFromEnd = function(head, n) {// 总的5个。倒数第二。等于正数:5-2+1个
+    var dummy = new ListNode(-1);
+    var p = dummy;
+    var p1 = head;
+    var count = 0;
+    while(p1 !== null) {
+        p1 = p1.next;
+        count++;
+    }
+    p1 = head;// 恢复原状
+
+
+    var toVal = count - n;// 得到正数的位置
+
+    for(var i = 0; i< toVal; i++) {
+        p.next = p1;
+        p = p.next;
+        p1 = p1.next;
+    }
+    p.next = p1.next;
+
+    console.log('toVal===',toVal)
+    console.log('p1===',p1)
+    console.log('p===',p)
+    console.log('dummy===',dummy)
+    return dummy.next;
+};
+
+var removeNthFromEnd1 = function(head, n) {// 总的5个。倒数第二。等于正数:5-2+1个
+    function findNode(list, k) {
+        var fast = list;
+        for(var i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        var slow = list;
+        while(fast !== null) {
+            slow = slow.next;
+            fast = fast.next; 
+        }
+        return slow;// [4,5]
+    }
+
+
+
+    var dummy = new ListNode(-1);
+    dummy.next = head;
+
+    // 删除倒数第 n 个，要先找倒数第 n + 1 个节点
+    var nodeCount = findNode(dummy, n + 1)// [3,4,5]
+
+    nodeCount.next = nodeCount.next.next;
+    
+    return dummy.next;
+};
+</script>
