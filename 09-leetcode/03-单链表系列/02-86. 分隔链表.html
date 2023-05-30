@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+
+你应当 保留 两个分区中每个节点的初始相对位置。
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/partition-list
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+
+输入：head = [1,4,3,2,5,2], x = 3
+输出：[1,2,2,4,3,5]
+示例 2：
+
+输入：head = [2,1], x = 2
+输出：[1,2]
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/partition-list
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+</body>
+</html>
+<script>    
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} x
+ * @return {ListNode}
+ */
+var partition = function(head, x) {
+    var small = new ListNode(-1);
+    var big = new ListNode(-1);
+    var s = small;
+    var b = big;
+    var p = head;
+    while(p !== null) {
+        if(p.val < x) {
+            s.next = p;
+            s = s.next;
+        } else {
+            b.next = p;
+            b = b.next;
+        }
+        // p = p.next; 
+        var temp = p.next;
+        p.next = null;// 通过引用断掉联系
+        p = temp;
+    }
+    // console.log('big===',big)big=== [-1,4,3,5,2]
+    // console.log('small===',small)small=== [-1,1,2,2]
+    // 连接两个链表
+    s.next = big.next;
+    return small.next;
+};
+
+
+</script>
