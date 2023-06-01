@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    给定一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+    输入：head = [1,2,3,4,5], n = 2
+输出：[1,2,3,5]
+
+输入：head = [1], n = 1
+输出：[]
+
+输入：head = [1,2], n = 1
+输出：[1]
+</body>
+</html>
+<script>
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+var removeNthFromEnd = function(head, n) {
+    function findNode(list, k) {
+        var fast = list;
+        for(var i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        var slow = list;
+        while(fast !== null) {// 快的走完节点。即结束
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    var dummy = new ListNode(-1);
+    dummy.next = head;
+
+    // 找到倒数n+1个节点
+    var nodeN_1 = findNode(dummy, n+1);
+    console.log('nodeN_1===',nodeN_1)
+    if(nodeN_1 && nodeN_1.next) {
+        nodeN_1.next = nodeN_1.next.next;
+    }
+    return dummy.next;
+};
+</script>
