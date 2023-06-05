@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+
+输入: nums = [0,1,0,3,12]
+输出: [1,3,12,0,0]
+
+输入: nums = [0]
+输出: [0]
+</body>
+</html>
+<script>
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function(nums) {
+    function findIndex(arr, val) {
+        var slow = 0;
+        var fast = 0;
+        while(fast < arr.length) {
+            if(val !== arr[fast]) {
+                arr[slow] = arr[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+    }
+    var index = findIndex(nums, 0);
+    console.log('index==',index)
+    console.log('nums==',nums)
+    for(var i = index; i < nums.length; i++) {
+        nums[i] = 0;
+    }
+    return nums;
+};
+
+</script>
