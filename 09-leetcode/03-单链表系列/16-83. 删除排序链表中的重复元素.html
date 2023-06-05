@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+给定一个已排序的链表的头 head ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+输入：head = [1,1,2]
+输出：[1,2]
+
+
+输入：head = [1,1,2,3,3]
+输出：[1,2,3]
+</body>
+</html>
+<script>
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var deleteDuplicates = function(head) {
+    // var dummy = new ListNode(-1);
+    // dummy.next = head;
+    // var p = dummy;
+    if(head === null) {
+        return null;
+    }
+    var slow = head;
+    var fast = head;
+
+    while(fast !== null) {
+        if(fast.val !== slow.val) {
+            // p = p.next;
+            slow.next = fast;
+            slow = slow.next;
+            // p = p.next;
+        }
+        fast = fast.next;
+    }
+    slow.next = null;
+    console.log('slow==',slow)
+    console.log('fast==',fast)
+    // console.log('dummy==',dummy)
+    // console.log('p==',p)
+    return head;
+};
+</script>
