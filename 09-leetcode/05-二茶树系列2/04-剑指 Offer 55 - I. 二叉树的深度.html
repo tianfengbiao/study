@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
+
+例如：
+
+给定二叉树 [3,9,20,null,null,15,7]，
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回它的最大深度 3 。
+
+ 
+
+来源：力扣（LeetCode）
+链接：https://leetcode.cn/problems/er-cha-shu-de-shen-du-lcof
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+</body>
+</html>
+<script>
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+
+ 
+ var maxDepth = function(root) {
+    var maxDepth = 0;
+    var pre = [] // 前序遍历
+    var mid = [] // 中序遍历
+    var back = [] // 后序遍历
+    function traverse(root, depth) {
+        if(root === null) {
+            return;
+        }
+        maxDepth = Math.max(maxDepth, depth);
+        pre.push(root.val);
+        traverse(root.left, depth+1);
+        mid.push(root.val);
+        traverse(root.right, depth+1);
+        back.push(root.val);
+    }
+    console.log('pre===',pre)
+    console.log('mid===',mid)
+    console.log('back===',back)
+    traverse(root, 1);
+    return maxDepth;
+};
+</script>
